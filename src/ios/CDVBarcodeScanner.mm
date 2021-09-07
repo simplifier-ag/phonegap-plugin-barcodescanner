@@ -213,7 +213,13 @@
 
     processor.isTransitionAnimated = !disableAnimations;
 
-    processor.formats = options[@"formats"];
+    NSString *format = options[@"formats"];
+
+    if ([[format lowercaseString] isEqualToString:@"all"]) {
+        processor.formats = nil;
+    } else {
+        processor.formats = options[@"formats"];
+    }
 
     [processor performSelector:@selector(scanBarcode) withObject:nil afterDelay:0];
 }
