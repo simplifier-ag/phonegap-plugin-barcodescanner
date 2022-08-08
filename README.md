@@ -19,7 +19,7 @@ It is also possible to install via repo url directly ( unstable )
     phonegap plugin add https://github.com/phonegap/phonegap-plugin-barcodescanner.git
 
 Optional variables:
-This plugin requires the Android support library v4. The minimum version is `24.1.0`. Default value is `27.+`.  Check out the latest version [here](https://developer.android.com/topic/libraries/support-library/revisions.html).
+This plugin requires the Android support library v4. The minimum version is `28.0.0`. Default value is `28.+`.  Check out the latest version [here](https://developer.android.com/topic/libraries/support-library/revisions.html).
 ```
 phonegap plugin add phonegap-plugin-barcodescanner --variable ANDROID_SUPPORT_V4_VERSION="27.1.1"
 ```

@@ -1,5 +1,8 @@
 # Change Log
 
+## v9.0.0
+ - updated android aar lib to (zxing) 3.5.0 (https://github.com/simplifier-ag/barcodescanner-lib-aar/releases/tag/v3.5.0)
+
 ## v8.1.0
 
 - Don't use `dispatch_sync` if already in the main thread ([#797](https://github.com/phonegap/phonegap-plugin-barcodescanner/pull/797)) [view commit](https://github.com/phonegap/phonegap-plugin-barcodescanner/commit/d45ffc32c03e489b6bb3da8a29d950e7a89f4812)
