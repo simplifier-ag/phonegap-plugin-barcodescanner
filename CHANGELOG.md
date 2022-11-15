@@ -1,5 +1,8 @@
 # Change Log
 
+## v9.1.0
+ - Added option assumeGS1 to allow scanning of GS1 barcodes
+
 ## v9.0.0
  - updated android aar lib to (zxing) 3.5.0 (https://github.com/simplifier-ag/barcodescanner-lib-aar/releases/tag/v3.5.0)
 
