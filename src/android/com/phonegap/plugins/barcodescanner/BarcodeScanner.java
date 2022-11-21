@@ -182,8 +182,8 @@ public class BarcodeScanner extends CordovaPlugin {
                         intentScan.putExtra(Intents.Scan.TORCH_ON, obj.optBoolean(TORCH_ON, false));
                         intentScan.putExtra(Intents.Scan.SAVE_HISTORY, obj.optBoolean(SAVE_HISTORY, false));
 
-                        assumeGS1 = obj.optBoolean(ASSUME_GS1, true);
-                        intentScan.putExtra("ASSUME_GS1", assumeGS1);
+                        assumeGS1 = obj.optBoolean(ASSUME_GS1, false);
+                        intentScan.putExtra(Intents.Scan.ASSUME_GS1, assumeGS1);
 
                         boolean beep = obj.optBoolean(DISABLE_BEEP, false);
                         intentScan.putExtra(Intents.Scan.BEEP_ON_SCAN, !beep);
