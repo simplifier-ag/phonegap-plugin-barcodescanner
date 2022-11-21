@@ -8,25 +8,24 @@
  */
 package com.phonegap.plugins.barcodescanner;
 
-import org.json.JSONArray;
-import org.json.JSONException;
-import org.json.JSONObject;
-
 import android.Manifest;
 import android.app.Activity;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.util.Log;
-import android.content.pm.PackageManager;
-
-import org.apache.cordova.CordovaPlugin;
-import org.apache.cordova.CallbackContext;
-import org.apache.cordova.PluginResult;
-import org.apache.cordova.PermissionHelper;
 
 import com.google.zxing.client.android.CaptureActivity;
-import com.google.zxing.client.android.encode.EncodeActivity;
 import com.google.zxing.client.android.Intents;
+import com.google.zxing.client.android.encode.EncodeActivity;
+
+import org.apache.cordova.CallbackContext;
+import org.apache.cordova.CordovaPlugin;
+import org.apache.cordova.PermissionHelper;
+import org.apache.cordova.PluginResult;
+import org.json.JSONArray;
+import org.json.JSONException;
+import org.json.JSONObject;
 
 /**
  * This calls out to the ZXing barcode reader and returns the result.
@@ -50,6 +49,7 @@ public class BarcodeScanner extends CordovaPlugin {
     private static final String SHOW_TORCH_BUTTON = "showTorchButton";
     private static final String TORCH_ON = "torchOn";
     private static final String SAVE_HISTORY = "saveHistory";
+    private static final String ASSUME_GS1 = "assumeGS1";
     private static final String DISABLE_BEEP = "disableSuccessBeep";
     private static final String FORMATS = "formats";
     private static final String PROMPT = "prompt";
@@ -64,6 +64,8 @@ public class BarcodeScanner extends CordovaPlugin {
 
     private JSONArray requestArgs;
     private CallbackContext callbackContext;
+
+    private boolean assumeGS1 = false;
 
     /**
      * Constructor.
@@ -136,7 +138,6 @@ public class BarcodeScanner extends CordovaPlugin {
 
         cordova.getThreadPool().execute(new Runnable() {
             public void run() {
-
                 Intent intentScan = new Intent(that.cordova.getActivity().getBaseContext(), CaptureActivity.class);
                 intentScan.setAction(Intents.Scan.ACTION);
                 intentScan.addCategory(Intent.CATEGORY_DEFAULT);
@@ -180,6 +181,10 @@ public class BarcodeScanner extends CordovaPlugin {
                         intentScan.putExtra(Intents.Scan.SHOW_TORCH_BUTTON, obj.optBoolean(SHOW_TORCH_BUTTON, false));
                         intentScan.putExtra(Intents.Scan.TORCH_ON, obj.optBoolean(TORCH_ON, false));
                         intentScan.putExtra(Intents.Scan.SAVE_HISTORY, obj.optBoolean(SAVE_HISTORY, false));
+
+                        assumeGS1 = obj.optBoolean(ASSUME_GS1, false);
+                        intentScan.putExtra(Intents.Scan.ASSUME_GS1, assumeGS1);
+
                         boolean beep = obj.optBoolean(DISABLE_BEEP, false);
                         intentScan.putExtra(Intents.Scan.BEEP_ON_SCAN, !beep);
                         if (obj.has(RESULTDISPLAY_DURATION)) {
@@ -218,9 +223,16 @@ public class BarcodeScanner extends CordovaPlugin {
     public void onActivityResult(int requestCode, int resultCode, Intent intent) {
         if (requestCode == REQUEST_CODE && this.callbackContext != null) {
             if (resultCode == Activity.RESULT_OK) {
+
                 JSONObject obj = new JSONObject();
                 try {
-                    obj.put(TEXT, intent.getStringExtra("SCAN_RESULT"));
+                    String scanResult = intent.getStringExtra("SCAN_RESULT");
+
+                    if (assumeGS1) {
+                        scanResult = scanResult.replace("]C1", "");
+                    }
+
+                    obj.put(TEXT, scanResult);
                     obj.put(FORMAT, intent.getStringExtra("SCAN_RESULT_FORMAT"));
                     obj.put(CANCELLED, false);
                 } catch (JSONException e) {
