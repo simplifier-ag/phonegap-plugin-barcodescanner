@@ -82,6 +82,10 @@
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/scanner/VisionProcessorBase.kt"
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/scanner/"/>
 
+        <resource-file src="src/android/res/drawable/barcode_cameraswitch.xml" target="res/drawable/barcode_cameraswitch.xml"/>
+        <resource-file src="src/android/res/drawable/barcode_torch.xml" target="res/drawable/barcode_torch.xml"/>
+        <resource-file src="src/android/res/layout/barcode_scan_activity.xml" target="res/layout/barcode_scan_activity.xml"/>
+        <resource-file src="src/android/res/raw/beep.ogg" target="res/raw/beep.ogg"/>
     </platform>
 
     <platform name="windows">
