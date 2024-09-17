@@ -72,8 +72,6 @@
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/VisionImageProcessor.kt"
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
-        <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/VisionImageProcessor.kt"
-                     target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
 
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/scanner/BarcodeGraphic.kt"
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/scanner/"/>
