@@ -83,7 +83,7 @@ class BarcodeScanActivity :
 		val shouldPlayBeep = intent.getBooleanExtra(Scan.BEEP_ON_SCAN, true)
 		beepManager = BeepManager(this, shouldPlayBeep)
 
-		if (intent.getIntExtra(Scan.PREFER_FRONT_CAMERA, 0) == 1) {
+		if (intent.getBooleanExtra(Scan.PREFER_FRONT_CAMERA, false)) {
 			lensFacing = CameraSelector.LENS_FACING_FRONT
 		}
 
