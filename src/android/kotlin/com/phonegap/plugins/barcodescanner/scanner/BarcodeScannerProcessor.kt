@@ -38,13 +38,6 @@ class BarcodeScannerProcessor(context: Context, formatList: List<Int>, val callb
 	private var barcodeScanner: BarcodeScanner
 
 	init {
-		//TODO Formats
-
-		// Note that if you know which format of barcode your app is dealing with, detection will be
-		// faster to specify the supported barcode formats one by one, e.g.
-		// BarcodeScannerOptions.Builder()
-		//     .setBarcodeFormats(Barcode.FORMAT_QR_CODE)
-		//     .build();
 		val builder = BarcodeScannerOptions.Builder()
 
 		if (formatList.isEmpty()) {

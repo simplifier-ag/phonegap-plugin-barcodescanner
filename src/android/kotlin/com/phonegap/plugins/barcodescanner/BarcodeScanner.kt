@@ -112,7 +112,6 @@ class BarcodeScanner : CordovaPlugin() {
 				}
 
 				intentScan.putExtra(
-					//TODO Umbenennen
 					Scan.PREFER_FRONT_CAMERA,
 					obj.optBoolean(PREFER_FRONTCAMERA, false)
 				)
