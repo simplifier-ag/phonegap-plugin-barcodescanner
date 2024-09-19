@@ -109,28 +109,6 @@ A full example could be:
    );
 ```
 
-## Encoding a Barcode ##
-
-The plugin creates the object `cordova.plugins.barcodeScanner` with the method `encode(type, data, success, fail)`.
-
-Supported encoding types:
-
-* TEXT_TYPE
-* EMAIL_TYPE
-* PHONE_TYPE
-* SMS_TYPE
-
-```
-A full example could be:
-
-   cordova.plugins.barcodeScanner.encode(cordova.plugins.barcodeScanner.Encode.TEXT_TYPE, "http://www.nytimes.com", function(success) {
-            alert("encode success: " + success);
-          }, function(fail) {
-            alert("encoding failed: " + fail);
-          }
-        );
-```
-
 ## iOS quirks ##
 
 Since iOS 10 it's mandatory to add a `NSCameraUsageDescription` in the `Info.plist`.
@@ -147,8 +125,6 @@ To add this entry you can use the `edit-config` tag in the `config.xml` like thi
 ```
 
 ## Windows quirks ##
-
-* Windows implementation currently doesn't support encode functionality.
 
 * On Windows 10 desktop ensure that you have Windows Media Player and Media Feature pack installed.
 
