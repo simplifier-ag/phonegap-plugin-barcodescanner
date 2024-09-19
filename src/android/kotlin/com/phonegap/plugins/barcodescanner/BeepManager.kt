@@ -28,7 +28,7 @@ class BeepManager(val activity: Activity, private val shouldPlayBeep: Boolean = 
 	private fun buildMediaPlayer(activity: Context): MediaPlayer? {
 		val mediaPlayer = MediaPlayer()
 		try {
-			activity.resources.openRawResourceFd(R.getRawId(activity, "beep")).use { file ->
+			activity.resources.openRawResourceFd(R.getRawId(activity, "barcode_beep")).use { file ->
 				mediaPlayer.setDataSource(
 					file.fileDescriptor,
 					file.startOffset,

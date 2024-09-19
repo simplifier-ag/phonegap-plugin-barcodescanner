@@ -10,11 +10,11 @@
         and get the metadata encoded in them for processing within your application.
     </description>
     <license>MIT</license>
-    <repo>https://github.com/phonegap/phonegap-plugin-barcodescanner</repo>
-    <issue>https://github.com/phonegap/phonegap-plugin-barcodescanner/issues</issue>
+    <repo>https://github.com/simplifier-ag/phonegap-plugin-barcodescanner</repo>
+    <issue>https://github.com/simplifier-ag/phonegap-plugin-barcodescanner/issues</issue>
     <engines>
         <engine name="cordova" version=">=7.1.0"/>
-        <engine name="cordova-android" version=">=6.3.0"/>
+        <engine name="cordova-android" version=">=12.0.0"/>
     </engines>
     <js-module src="www/barcodescanner.js" name="BarcodeScanner">
         <clobbers target="cordova.plugins.barcodeScanner"/>
@@ -44,6 +44,7 @@
         <config-file target="AndroidManifest.xml" parent="/manifest/application">
             <activity android:name="com.phonegap.plugins.barcodescanner.BarcodeScanActivity"
                       android:exported="false"
+                      android:configChanges="orientation|keyboardHidden|screenSize"
                       android:theme="@style/Theme.AppCompat.NoActionBar">
             </activity>
         </config-file>
@@ -66,15 +67,11 @@
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/FrameMetadata.kt"
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
-        <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/GraphicOverlay.java"
-                     target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/R.kt"
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/VisionImageProcessor.kt"
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/"/>
 
-        <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/scanner/BarcodeGraphic.kt"
-                     target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/scanner/"/>
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/scanner/BarcodeScannerProcessor.kt"
                      target-dir="app/src/main/kotlin/com/phonegap/plugins/barcodescanner/scanner/"/>
         <source-file src="src/android/kotlin/com/phonegap/plugins/barcodescanner/scanner/ScopedExecutor.java"
@@ -85,33 +82,6 @@
         <resource-file src="src/android/res/drawable/barcode_cameraswitch.xml" target="res/drawable/barcode_cameraswitch.xml"/>
         <resource-file src="src/android/res/drawable/barcode_torch.xml" target="res/drawable/barcode_torch.xml"/>
         <resource-file src="src/android/res/layout/barcode_scan_activity.xml" target="res/layout/barcode_scan_activity.xml"/>
-        <resource-file src="src/android/res/raw/beep.ogg" target="res/raw/beep.ogg"/>
-    </platform>
-
-    <platform name="windows">
-        <js-module src="src/windows/BarcodeScannerProxy.js" name="BarcodeScannerProxy">
-            <merges target=""/>
-        </js-module>
-        <config-file target="package.appxmanifest" parent="/Package/Capabilities">
-            <DeviceCapability Name="webcam"/>
-        </config-file>
-        <framework src="src/windows/lib.UW/x86/ZXing.winmd" target-dir="x86" arch="x86" custom="true" versions=">8.1"/>
-        <framework src="src/windows/lib.UW/x64/ZXing.winmd" target-dir="x64" arch="x64" custom="true" versions=">8.1"/>
-        <framework src="src/windows/lib.UW/ARM/ZXing.winmd" target-dir="ARM" arch="ARM" custom="true" versions=">8.1"/>
-        <framework src="src/windows/lib/WinRTBarcodeReader.csproj" custom="true" type="projectReference"
-                   versions="&lt;=8.1"/>
-        <asset src="src/windows/assets/plugin-barcodeScanner.css" target="css/plugin-barcodeScanner.css"/>
-        <hook src="hooks/windows/check-arch.js" type="before_compile"/>
-        <hook src="hooks/windows/check-arch.js" type="before_run"/>
-    </platform>
-    <platform name="browser">
-        <config-file target="config.xml" parent="/*">
-            <feature name="BarcodeScanner">
-                <param name="browser-package" value="BarcodeScanner"/>
-            </feature>
-        </config-file>
-        <js-module src="src/browser/BarcodeScannerProxy.js" name="BarcodeScannerProxy">
-            <runs/>
-        </js-module>
+        <resource-file src="src/android/res/raw/barcode_beep.ogg" target="res/raw/barcode_beep.ogg"/>
     </platform>
 </plugin>

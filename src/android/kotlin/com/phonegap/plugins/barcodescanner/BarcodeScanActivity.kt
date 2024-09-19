@@ -51,7 +51,6 @@ class BarcodeScanActivity :
 	AppCompatActivity(), CompoundButton.OnCheckedChangeListener {
 
 	private var previewView: PreviewView? = null
-	private var graphicOverlay: GraphicOverlay? = null
 	private var cameraProvider: ProcessCameraProvider? = null
 	private var camera: Camera? = null
 	private var previewUseCase: Preview? = null
@@ -233,11 +232,6 @@ class BarcodeScanActivity :
 			cameraProvider!!.unbind(previewUseCase)
 		}
 
-		graphicOverlay = findViewById(R.getId(this, "graphic_overlay"))
-		if (graphicOverlay == null) {
-			LOG.d(TAG, "graphicOverlay is null")
-		}
-
 		val builder = Preview.Builder()
 		previewUseCase = builder.build()
 		previewUseCase?.setSurfaceProvider(previewView?.getSurfaceProvider())
@@ -278,7 +272,7 @@ class BarcodeScanActivity :
 					}
 				})
 			} catch (e: Exception) {
-				LOG.e(TAG, "Can not create image processor: $BARCODE_SCANNING", e)
+				LOG.e(TAG, "Can not create image processor: Barcode Scanning", e)
 				Toast.makeText(
 					applicationContext,
 					"Can not create image processor: " + e.localizedMessage,
@@ -299,7 +293,7 @@ class BarcodeScanActivity :
 			ContextCompat.getMainExecutor(this),
 		) { imageProxy: ImageProxy ->
 			try {
-				imageProcessor?.processImageProxy(imageProxy, graphicOverlay)
+				imageProcessor?.processImageProxy(imageProxy)
 			} catch (e: MlKitException) {
 				LOG.e(TAG, "Failed to process image. Error: " + e.localizedMessage)
 				Toast.makeText(applicationContext, e.localizedMessage, Toast.LENGTH_SHORT).show()
@@ -372,8 +366,6 @@ class BarcodeScanActivity :
 	}
 
 	companion object {
-		private const val TAG = "CameraXLivePreview"
-		private const val BARCODE_SCANNING = "Barcode Scanning"
-		private const val STATE_SELECTED_MODEL = "selected_model"
+		private const val TAG = "BarcodeScanActivity"
 	}
 }

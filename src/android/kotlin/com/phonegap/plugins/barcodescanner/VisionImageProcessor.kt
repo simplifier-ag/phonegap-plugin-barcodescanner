@@ -8,17 +8,17 @@ import java.nio.ByteBuffer
 /** An interface to process the images with different vision detectors and custom image models.  */
 interface VisionImageProcessor {
 	/** Processes a bitmap image.  */
-	fun processBitmap(bitmap: Bitmap?, graphicOverlay: GraphicOverlay)
+	fun processBitmap(bitmap: Bitmap?)
 
 	/** Processes ByteBuffer image data, e.g. used for Camera1 live preview case.  */
 	@Throws(MlKitException::class)
 	fun processByteBuffer(
-		data: ByteBuffer?, frameMetadata: FrameMetadata?, graphicOverlay: GraphicOverlay
+		data: ByteBuffer?, frameMetadata: FrameMetadata?
 	)
 
 	/** Processes ImageProxy image data, e.g. used for CameraX live preview case.  */
 	@Throws(MlKitException::class)
-	fun processImageProxy(image: ImageProxy, graphicOverlay: GraphicOverlay?)
+	fun processImageProxy(image: ImageProxy)
 
 	/** Stops the underlying machine learning model and release resources.  */
 	fun stop()

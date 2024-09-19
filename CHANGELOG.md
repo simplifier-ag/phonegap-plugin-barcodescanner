@@ -1,5 +1,11 @@
 # Change Log
 
+## v10.0.0
+ - Removed windows platform
+ - Removed encode method
+ - Re-implemented android platform using MLKit so inverted barcodes can be scan now, too
+ - Updated README
+
 ## v9.1.0
  - Added option assumeGS1 to allow scanning of GS1 barcodes
 

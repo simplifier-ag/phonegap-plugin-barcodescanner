@@ -40,9 +40,7 @@ class BarcodeScanner : CordovaPlugin() {
 	private var assumeGS1 = false
 
 	override fun execute(
-		action: String?,
-		args: JSONArray?,
-		callbackContext: CallbackContext?
+		action: String?, args: JSONArray?, callbackContext: CallbackContext?
 	): Boolean {
 
 		this.callbackContext = callbackContext
@@ -61,10 +59,10 @@ class BarcodeScanner : CordovaPlugin() {
 					scan(args)
 				}
 			}
-		} else {
-			return false
+			return true
 		}
-		return true
+
+		return false
 	}
 
 	/**
@@ -72,8 +70,7 @@ class BarcodeScanner : CordovaPlugin() {
 	 */
 	fun scan(args: JSONArray) {
 		val intentScan = Intent(
-			cordova.activity.baseContext,
-			BarcodeScanActivity::class.java
+			cordova.activity.baseContext, BarcodeScanActivity::class.java
 		)
 		intentScan.addCategory(Intent.CATEGORY_DEFAULT)
 
@@ -112,8 +109,7 @@ class BarcodeScanner : CordovaPlugin() {
 				}
 
 				intentScan.putExtra(
-					Scan.PREFER_FRONT_CAMERA,
-					obj.optBoolean(PREFER_FRONTCAMERA, false)
+					Scan.PREFER_FRONT_CAMERA, obj.optBoolean(PREFER_FRONTCAMERA, false)
 				)
 
 				intentScan.putExtra(
@@ -129,8 +125,7 @@ class BarcodeScanner : CordovaPlugin() {
 				)
 
 				intentScan.putExtra(
-					Scan.TORCH_ON,
-					obj.optBoolean(TORCH_ON, false)
+					Scan.TORCH_ON, obj.optBoolean(TORCH_ON, false)
 				)
 
 				assumeGS1 = obj.optBoolean(ASSUME_GS1, false)
@@ -141,8 +136,7 @@ class BarcodeScanner : CordovaPlugin() {
 
 				if (obj.has(RESULTDISPLAY_DURATION)) {
 					intentScan.putExtra(
-						Scan.RESULT_DISPLAY_DURATION_MS,
-						"" + obj.optLong(RESULTDISPLAY_DURATION)
+						Scan.RESULT_DISPLAY_DURATION_MS, "" + obj.optLong(RESULTDISPLAY_DURATION)
 					)
 				}
 
@@ -152,15 +146,13 @@ class BarcodeScanner : CordovaPlugin() {
 
 				if (obj.has(PROMPT)) {
 					intentScan.putExtra(
-						Scan.PROMPT_MESSAGE,
-						obj.optString(PROMPT)
+						Scan.PROMPT_MESSAGE, obj.optString(PROMPT)
 					)
 				}
 
 				if (obj.has(ORIENTATION)) {
 					intentScan.putExtra(
-						Scan.ORIENTATION_LOCK,
-						obj.optString(ORIENTATION)
+						Scan.ORIENTATION_LOCK, obj.optString(ORIENTATION)
 					)
 				}
 			}
@@ -230,30 +222,8 @@ class BarcodeScanner : CordovaPlugin() {
 		return true
 	}
 
-	/*override fun onRequestPermissionsResult(
-		requestCode: Int,
-		permissions: Array<out String>?,
-		grantResults: IntArray?
-	) {
-		val result: PluginResult
-		for (r in grantResults!!) {
-			if (r == PackageManager.PERMISSION_DENIED) {
-				LOG.d(LOG_TAG, "Permission Denied!")
-				result = PluginResult(PluginResult.Status.ILLEGAL_ACCESS_EXCEPTION)
-				callbackContext?.sendPluginResult(result)
-				return
-			}
-		}
-
-		when (requestCode) {
-			0 -> scan(requestArgs!!)
-		}
-	}*/
-
 	override fun onRequestPermissionResult(
-		requestCode: Int,
-		permissions: Array<out String>?,
-		grantResults: IntArray?
+		requestCode: Int, permissions: Array<out String>?, grantResults: IntArray?
 	) {
 		val result: PluginResult
 		for (r in grantResults!!) {

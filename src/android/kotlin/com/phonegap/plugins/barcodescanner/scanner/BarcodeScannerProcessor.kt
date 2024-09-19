@@ -24,7 +24,6 @@ import com.google.mlkit.vision.barcode.BarcodeScanning
 import com.google.mlkit.vision.barcode.common.Barcode
 import com.google.mlkit.vision.common.InputImage
 import com.phonegap.plugins.barcodescanner.FrameMetadata
-import com.phonegap.plugins.barcodescanner.GraphicOverlay
 import org.apache.cordova.LOG
 import java.nio.ByteBuffer
 
@@ -65,8 +64,7 @@ class BarcodeScannerProcessor(context: Context, formatList: List<Int>, val callb
 
 	override fun processByteBuffer(
 		data: ByteBuffer?,
-		frameMetadata: FrameMetadata?,
-		graphicOverlay: GraphicOverlay
+		frameMetadata: FrameMetadata?
 	) {
 		if (data != null && invert) {
 			val imageBytes = data.array()
@@ -83,10 +81,10 @@ class BarcodeScannerProcessor(context: Context, formatList: List<Int>, val callb
 			}
 		}
 		invert = !invert
-		super.processByteBuffer(data, frameMetadata, graphicOverlay)
+		super.processByteBuffer(data, frameMetadata)
 	}
 
-	override fun onSuccess(results: List<Barcode>, graphicOverlay: GraphicOverlay) {
+	override fun onSuccess(results: List<Barcode>) {
 		if (results.isEmpty()) {
 			LOG.v(MANUAL_TESTING_LOG, "No barcode has been detected")
 			return
