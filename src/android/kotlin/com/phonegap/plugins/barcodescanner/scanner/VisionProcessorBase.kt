@@ -20,13 +20,10 @@ import android.app.ActivityManager
 import android.content.Context
 import android.graphics.Bitmap
 import android.os.Build.VERSION_CODES
-import android.os.SystemClock
 import androidx.annotation.GuardedBy
 import androidx.annotation.RequiresApi
 import androidx.camera.core.ExperimentalGetImage
 import androidx.camera.core.ImageProxy
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 import com.google.android.gms.tasks.Task
 import com.google.android.gms.tasks.TaskExecutors
 import com.google.android.gms.tasks.Tasks
@@ -79,8 +76,6 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 
 	// -----------------Code for processing single still image----------------------------------------
 	override fun processBitmap(bitmap: Bitmap?) {
-		val frameStartMs = SystemClock.elapsedRealtime()
-
 		requestDetectInImage(
 			InputImage.fromBitmap(bitmap!!, 0)
 		)
@@ -112,8 +107,6 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 	private fun processImage(
 		data: ByteBuffer, frameMetadata: FrameMetadata
 	) {
-		val frameStartMs = SystemClock.elapsedRealtime()
-
 		requestDetectInImage(
 			InputImage.fromByteBuffer(
 				data,
@@ -156,16 +149,16 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 	private fun setUpListener(
 		task: Task<T>
 	): Task<T> {
-		return task.addOnSuccessListener(executor, OnSuccessListener { results: T ->
+		return task.addOnSuccessListener(executor) { results: T ->
 			// Only log inference info once per second. When frameProcessedInOneSecondInterval is
 			// equal to 1, it means this is the first frame processed during the current second.
 			this@VisionProcessorBase.onSuccess(results)
-		}).addOnFailureListener(executor, OnFailureListener { e: Exception ->
+		}.addOnFailureListener(executor) { e: Exception ->
 			val error = "Failed to process. Error: " + e.localizedMessage
 			LOG.d(TAG, error)
 			e.printStackTrace()
 			this@VisionProcessorBase.onFailure(e)
-		})
+		}
 	}
 
 	override fun stop() {
