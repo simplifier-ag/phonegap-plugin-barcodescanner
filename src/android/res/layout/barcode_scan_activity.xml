@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+	xmlns:app="http://schemas.android.com/apk/res-auto"
+	xmlns:tools="http://schemas.android.com/tools"
+	android:layout_width="match_parent"
+	android:layout_height="match_parent"
+	android:keepScreenOn="true">
+
+	<androidx.camera.view.PreviewView
+		android:id="@+id/preview_view"
+		android:layout_width="0dp"
+		android:layout_height="0dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent"
+		app:layout_constraintStart_toStartOf="parent"
+		app:layout_constraintTop_toTopOf="parent" />
+
+	<androidx.appcompat.widget.AppCompatImageButton
+		android:id="@+id/button_cameraswitch"
+		android:layout_width="60dp"
+		android:layout_height="60dp"
+		android:layout_margin="16dp"
+		android:adjustViewBounds="true"
+		android:background="@null"
+		android:padding="6dp"
+		android:scaleType="fitCenter"
+		android:src="@drawable/barcode_cameraswitch"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintStart_toStartOf="parent" />
+
+	<androidx.appcompat.widget.AppCompatTextView
+		android:id="@+id/text_prompt"
+		android:layout_width="0dp"
+		android:layout_height="wrap_content"
+		android:background="@null"
+		android:gravity="bottom|center"
+		android:lines="3"
+		android:textColor="@color/white"
+		android:layout_marginBottom="16dp"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toStartOf="@id/button_torch"
+		app:layout_constraintStart_toEndOf="@id/button_cameraswitch"
+		tools:text="Hallo Welt" />
+
+	<androidx.appcompat.widget.AppCompatImageButton
+		android:id="@+id/button_torch"
+		android:layout_width="60dp"
+		android:layout_height="60dp"
+		android:layout_margin="16dp"
+		android:adjustViewBounds="true"
+		android:background="@null"
+
+		android:padding="6dp"
+		android:scaleType="fitCenter"
+		android:src="@drawable/barcode_torch"
+		app:layout_constraintBottom_toBottomOf="parent"
+		app:layout_constraintEnd_toEndOf="parent" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

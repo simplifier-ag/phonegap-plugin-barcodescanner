@@ -38,8 +38,6 @@
 @interface CDVBarcodeScanner : CDVPlugin {}
 - (NSString*)isScanNotPossible;
 - (void)scan:(CDVInvokedUrlCommand*)command;
-- (void)encode:(CDVInvokedUrlCommand*)command;
-- (void)returnImage:(NSString*)filePath format:(NSString*)format callback:(NSString*)callback;
 - (void)returnSuccess:(NSString*)scannedText format:(NSString*)format cancelled:(BOOL)cancelled flipped:(BOOL)flipped callback:(NSString*)callback;
 - (void)returnError:(NSString*)message callback:(NSString*)callback;
 @end
@@ -222,37 +220,6 @@
     }
 
     [processor performSelector:@selector(scanBarcode) withObject:nil afterDelay:0];
-}
-
-//--------------------------------------------------------------------------
-- (void)encode:(CDVInvokedUrlCommand*)command {
-    if([command.arguments count] < 1)
-        [self returnError:@"Too few arguments!" callback:command.callbackId];
-
-    CDVqrProcessor* processor;
-    NSString*       callback;
-    callback = command.callbackId;
-
-    processor = [[CDVqrProcessor alloc]
-                 initWithPlugin:self
-                 callback:callback
-                 stringToEncode: command.arguments[0][@"data"]
-                 ];
-    // queue [processor generateImage] to run on the event loop
-    [processor performSelector:@selector(generateImage) withObject:nil afterDelay:0];
-}
-
-- (void)returnImage:(NSString*)filePath format:(NSString*)format callback:(NSString*)callback{
-    NSMutableDictionary* resultDict = [[NSMutableDictionary alloc] init];
-    resultDict[@"format"] = format;
-    resultDict[@"file"] = filePath;
-
-    CDVPluginResult* result = [CDVPluginResult
-                               resultWithStatus: CDVCommandStatus_OK
-                               messageAsDictionary:resultDict
-                               ];
-
-    [[self commandDelegate] sendPluginResult:result callbackId:callback];
 }
 
 //--------------------------------------------------------------------------
@@ -650,83 +617,6 @@ parentViewController:(UIViewController*)parentViewController
     return formatObjectTypes;
 }
 
-@end
-
-//------------------------------------------------------------------------------
-// qr encoder processor
-//------------------------------------------------------------------------------
-@implementation CDVqrProcessor
-@synthesize plugin               = _plugin;
-@synthesize callback             = _callback;
-@synthesize stringToEncode       = _stringToEncode;
-@synthesize size                 = _size;
-
-- (id)initWithPlugin:(CDVBarcodeScanner*)plugin callback:(NSString*)callback stringToEncode:(NSString*)stringToEncode{
-    self = [super init];
-    if (!self) return self;
-
-    self.plugin          = plugin;
-    self.callback        = callback;
-    self.stringToEncode  = stringToEncode;
-    self.size            = 300;
-
-    return self;
-}
-
-//--------------------------------------------------------------------------
-- (void)dealloc {
-    self.plugin = nil;
-    self.callback = nil;
-    self.stringToEncode = nil;
-}
-//--------------------------------------------------------------------------
-- (void)generateImage{
-    /* setup qr filter */
-    CIFilter *filter = [CIFilter filterWithName:@"CIQRCodeGenerator"];
-    [filter setDefaults];
-
-    /* set filter's input message
-     * the encoding string has to be convert to a UTF-8 encoded NSData object */
-    [filter setValue:[self.stringToEncode dataUsingEncoding:NSUTF8StringEncoding]
-              forKey:@"inputMessage"];
-
-    /* on ios >= 7.0  set low image error correction level */
-    if (floor(NSFoundationVersionNumber) >= NSFoundationVersionNumber_iOS_7_0)
-        [filter setValue:@"L" forKey:@"inputCorrectionLevel"];
-
-    /* prepare cgImage */
-    CIImage *outputImage = [filter outputImage];
-    CIContext *context = [CIContext contextWithOptions:nil];
-    CGImageRef cgImage = [context createCGImage:outputImage
-                                       fromRect:[outputImage extent]];
-
-    /* returned qr code image */
-    UIImage *qrImage = [UIImage imageWithCGImage:cgImage
-                                           scale:1.
-                                     orientation:UIImageOrientationUp];
-    /* resize generated image */
-    CGFloat width = _size;
-    CGFloat height = _size;
-
-    UIGraphicsBeginImageContext(CGSizeMake(width, height));
-
-    CGContextRef ctx = UIGraphicsGetCurrentContext();
-    CGContextSetInterpolationQuality(ctx, kCGInterpolationNone);
-    [qrImage drawInRect:CGRectMake(0, 0, width, height)];
-    qrImage = UIGraphicsGetImageFromCurrentImageContext();
-
-    /* clean up */
-    UIGraphicsEndImageContext();
-    CGImageRelease(cgImage);
-
-    /* save image to file */
-    NSString* fileName = [[[NSProcessInfo processInfo] globallyUniqueString] stringByAppendingString:@".jpg"];
-    NSString* filePath = [NSTemporaryDirectory() stringByAppendingPathComponent:fileName];
-    [UIImageJPEGRepresentation(qrImage, 1.0) writeToFile:filePath atomically:YES];
-
-    /* return file path back to cordova */
-    [self.plugin returnImage:filePath format:@"QR_CODE" callback: self.callback];
-}
 @end
 
 //------------------------------------------------------------------------------
