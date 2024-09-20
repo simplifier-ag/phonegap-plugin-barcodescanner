@@ -83,7 +83,6 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 
 		requestDetectInImage(
 			InputImage.fromBitmap(bitmap!!, 0)
-			/* originalCameraImage= */            /* shouldShowFps= */
 		)
 	}
 
@@ -122,7 +121,7 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 				frameMetadata.height,
 				frameMetadata.rotation,
 				InputImage.IMAGE_FORMAT_NV21
-			)             /* shouldShowFps= */
+			)
 		).addOnSuccessListener(executor) { processLatestImage() }
 	}
 
@@ -138,7 +137,6 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 
 		requestDetectInImage(
 			InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees)
-			/* originalCameraImage= */            /* shouldShowFps= */
 		)
 			// When the image is from CameraX analysis use case, must call image.close() on received
 			// images when finished using them. Otherwise, new images may not be received or the camera
