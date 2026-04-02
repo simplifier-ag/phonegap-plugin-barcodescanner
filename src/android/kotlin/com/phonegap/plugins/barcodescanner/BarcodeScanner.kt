@@ -222,6 +222,7 @@ class BarcodeScanner : CordovaPlugin() {
 		return true
 	}
 
+	@Suppress("DEPRECATION")
 	override fun onRequestPermissionResult(
 		requestCode: Int, permissions: Array<out String>?, grantResults: IntArray?
 	) {

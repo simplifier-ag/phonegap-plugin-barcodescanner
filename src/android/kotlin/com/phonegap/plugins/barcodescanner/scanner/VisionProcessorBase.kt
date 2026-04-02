@@ -121,20 +121,20 @@ abstract class VisionProcessorBase<T>(context: Context) : VisionImageProcessor {
 	// -----------------Code for processing live preview frame from CameraX API-----------------------
 	@RequiresApi(VERSION_CODES.LOLLIPOP)
 	@ExperimentalGetImage
-	override fun processImageProxy(imageProxy: ImageProxy) {
-		val image = imageProxy.image
+	override fun processImageProxy(image: ImageProxy) {
+		val mediaImage = image.image
 
-		if (isShutdown || image == null) {
+		if (isShutdown || mediaImage == null) {
 			return
 		}
 
 		requestDetectInImage(
-			InputImage.fromMediaImage(image, imageProxy.imageInfo.rotationDegrees)
+			InputImage.fromMediaImage(mediaImage, image.imageInfo.rotationDegrees)
 		)
 			// When the image is from CameraX analysis use case, must call image.close() on received
 			// images when finished using them. Otherwise, new images may not be received or the camera
 			// may stall.
-			.addOnCompleteListener { imageProxy.close() }
+			.addOnCompleteListener { image.close() }
 	}
 
 	// -----------------Common processing logic-------------------------------------------------------
