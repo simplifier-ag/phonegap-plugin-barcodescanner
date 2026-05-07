@@ -1,17 +1,9 @@
-repositories{
-    mavenCentral()
-    flatDir{
-        dirs 'libs'
-    }
-}
-
 dependencies {
-    implementation(name:'barcodescanner-release-3.6.0', ext:'aar')
+    implementation files('libs/barcodescanner-release-3.6.0.aar')
 }
 
 android {
-    packagingOptions {
-        exclude 'META-INF/NOTICE'
-        exclude 'META-INF/LICENSE'
+    packaging {
+        resources.excludes += ['META-INF/NOTICE', 'META-INF/LICENSE']
     }
 }
